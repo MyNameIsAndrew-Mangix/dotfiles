@@ -32,4 +32,28 @@ for file in "${CONFIG_FILES[@]}"; do
         echo "Failed to create symlink for $file."
     fi
 done
+
+echo "Checking for and correcting broken symlinks..."
+
+broken_links_count=0
+
+# Iterate over each file in ~/.config
+for file in ~/.config/*; do
+    # Check if it's a broken symlink pointing to DOTFILES_DIR
+    if [ -L "$file" ] && [ ! -e "$file" ] && [ "$(readlink "$file")" == "$DOTFILES_DIR/$(basename "$file")" ]; then
+        echo "Correcting broken symlink: $(basename "$file")"
+        rm "$file"
+        ln -s "$DOTFILES_DIR/$(basename "$file")" "$file"
+        ((broken_links_count++))
+    fi
+done
+
+# Check if broken symlinks were found
+if [ "$broken_links_count" -eq 0 ]; then
+    echo "$broken_links_count broken symlinks found."
+	echo "#########################################################"
+	echo "# Double check for broken symlinks if you have problems #"
+	echo "#########################################################"
+fi
+
 echo "Dotfiles setup complete."
