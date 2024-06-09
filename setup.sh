@@ -6,7 +6,12 @@ DOTFILES_DIR=~/dotfiles
 CONFIG_FILES=(awesome pulse kitty)
 	for file in "${CONFIG_FILES[@]}"; do
 		# remove existing config if it exists
-		rm -rf ~/.config/$file
+		if [ -e ~.config/$file ]; then
+			echo "Removing existing $file configuration..."
+			rm -rf ~/.config/$file
+		fi
 		# create sym link
+		echo "Creating symlink for $file..."
 		ln -s $DOTFILES_DIR/$file ~/.config$file
 	done
+	echo "Dotfiles setup complete."
