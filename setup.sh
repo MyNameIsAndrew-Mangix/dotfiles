@@ -8,8 +8,20 @@ CONFIG_FILES=(awesome pulse kitty xfce4)
 echo "Checking for updates..."
 cd $DOTFILES_DIR
 
-#pull the latest changes from the remote repo
-git pull
+# check if there are any differences between local and remote branches
+git fetch origin
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse origin/main)
+
+if [ $LOCAL != REMOTE ]; then
+    echo "Checksum mismatch detected. Local checksum $LOCAL does not match remote checksum $REMOTE! Updating..."
+    git pull origin main
+else
+    echo "Local repository is up to date"
+fi
+
+echo "Undoing any local uncommitted changes..."
+git reset --hard HEAD
 
 echo "Setting up dotfiles..."
 
