@@ -3,7 +3,7 @@
 DOTFILES_DIR=~/dotfiles
 
 # list of config files/directories to symlink
-CONFIG_FILES=(awesome pulse kitty)
+CONFIG_FILES=(awesome pulse kitty xfce4)
 
 echo "Checking for updates..."
 cd $DOTFILES_DIR
