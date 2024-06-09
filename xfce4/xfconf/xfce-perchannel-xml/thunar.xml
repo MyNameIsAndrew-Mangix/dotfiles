@@ -2,4 +2,6 @@
 
 <channel name="thunar" version="1.0">
   <property name="last-view" type="string" value="ThunarIconView"/>
+  <property name="last-window-width" type="int" value="1881"/>
+  <property name="last-window-height" type="int" value="999"/>
 </channel>
