@@ -119,6 +119,7 @@ esac
 
 if [ "$SYNC_CHANGES" = true ]; then
     sync_changes
+    configure_files
 else
     configure_files
 fi
