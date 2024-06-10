@@ -48,19 +48,24 @@ configure_files() {
             rm -rf $USER_HOME/.config/$file
         fi
 
-        if [ $file == "pulse" ]; then
-            if [ ! -L "$USER_HOME/.pulse" ]; then
-                echo "Creating symlink for $file..."
-                ln -s "$DOTFILES_DIR/$file" "$USER_HOME/.pulse" 
+        if [ "$file" == "pulse" ]; then
+            if [ ! -d "$USER_HOME/.pulse" ]; then
+                echo "Creating directory for $file..."
+                mkdir -p "$USER_HOME/.pulse"
+                echo "Copying $file to $USER_HOME/.pulse..."
+                cp -r "$DOTFILES_DIR/$file"/* "$USER_HOME/.pulse/" 
 
-                if [ -L "$USER_HOME/.pulse" ]; then
-                    echo "Symlink for pulse created successfully."
+                if [ $? -eq 0 ]; then
+                    echo "$file copied successfully."
                 else
-                    echo "Failed to create symlink for pulse."
+                    echo "Failed to copy $file."
                 fi
+            else
+                echo "$file directory already exists in $USER_HOME/.pulse. Skipping..."
             fi
             continue
         fi
+
         
         # Create a symbolic link if it doesn't already exist
         if [ ! -L "$USER_HOME/.config/$file" ]; then
