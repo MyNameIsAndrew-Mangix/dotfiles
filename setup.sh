@@ -49,13 +49,15 @@ configure_files() {
         fi
 
         if [ $file == "pulse" ]; then
-            echo "Creating symlink for $file..."
-            ln -s $DOTFILES_DIR/$file $USER_HOME/.pulse 
+            if [ ! -L "$USER_HOME/.pulse" ]; then
+                echo "Creating symlink for $file..."
+                ln -s "$DOTFILES_DIR/$file" "$USER_HOME/.pulse" 
 
-            if [ -L $USER_HOME/.config/pulse ]; then
-                echo "Symlink for pulse created successfully."
-            else
-                echo "Failed to create symlink for pulse."
+                if [ -L "$USER_HOME/.pulse" ]; then
+                    echo "Symlink for pulse created successfully."
+                else
+                    echo "Failed to create symlink for pulse."
+                fi
             fi
             continue
         fi
